@@ -57,7 +57,7 @@ public class AddDataKapalController implements Initializable {
         PreparedStatement pst;
         ResultSet rs;   
         float gov;
-        //String id;
+        float trim;
       /*==============================*/
         
     public static AddDataKapalController instance;
@@ -73,10 +73,17 @@ public class AddDataKapalController implements Initializable {
     @FXML
     private void btnReset(ActionEvent event) {
     }
+    
+    public float calculatedTrim() {        
+        float foward = Float.parseFloat(fFoward.getText());
+        float after = Float.parseFloat(fAfter.getText());
+        trim = foward - after;
         
-    public void findVolume(){
+        return trim;
+    }
         
-        int db = (int)VesselController.getInstance().trim;
+    public void findVolume(){        
+        int db = (int) calculatedTrim();
         System.out.println("Nilai trim = "+db);
         String sql = "SELECT volume FROM trim"+db+" WHERE sounding = ?";
         con = DBConnect.getKoneksi();
@@ -131,6 +138,7 @@ public class AddDataKapalController implements Initializable {
     
     @FXML
     private void btnSave(ActionEvent event) {
+        calculatedTrim();
         findVolume();
         insertData(event);        
     }

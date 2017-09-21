@@ -236,7 +236,7 @@ public class VesselController implements Initializable {
             fBl.setText(Float.toString(bl));
             fRho.setText(Float.toString(dens));
             fSeacond.setText(seacondition);
-            fTrim.setText(Float.toString(calculatedTrim()));
+            fTrim.setText(Float.toString(AddDataKapalController.getInstance().trim));
             System.out.println(cellValue);
             System.out.println(cellID);
                         
@@ -254,14 +254,6 @@ public class VesselController implements Initializable {
         loadDataKapal();
     }
 
-    public float calculatedTrim() {        
-        float foward = Float.parseFloat(fForward.getText());
-        float after = Float.parseFloat(fAfter.getText());
-        trim = foward - after;
-        
-        return trim;
-    }
-    
     @FXML
     private void btnTest(ActionEvent event) {
         
