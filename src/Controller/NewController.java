@@ -23,7 +23,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -80,14 +79,11 @@ public class NewController implements Initializable {
              pst.setString(2, fSeaCondition.getText());
              pst.setString(3, fBL.getText());
              int r = pst.executeUpdate();
-             if(r>0){
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Form/Vessel.fxml"));
-                Parent root = loader.load();
-                VesselController vc = (VesselController) loader.getController();
-                //vc.loadTable();           
+             if(r>0){                
                 Node b = (Node) event.getSource();
                 Stage a = (Stage) b.getScene().getWindow();
                 a.close();
+                VesselController.getInstance().loadTableNamaKapal();
              }
              
         } catch (Exception e) {
@@ -95,14 +91,10 @@ public class NewController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }
-       
     }
     
     public void addNewData(TankResultsModel tankResults){
         ObservableList<TankResultsModel> data = FXCollections.observableArrayList();
         data.add(tankResults);
     }
-    
-   
-    
 }

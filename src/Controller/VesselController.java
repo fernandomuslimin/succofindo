@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.TankResultsModel;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -81,11 +83,23 @@ public class VesselController implements Initializable {
     private TableColumn<TankResultsModel, String> cSeaCondition;
     @FXML
     private TableColumn<TankResultsModel, Number> cBl;
+    @FXML
+    private Label lbNamaKapal1;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadTableNamaKapal();        
     }    
+    
+    public static VesselController instance;
+    
+    public VesselController(){
+        instance = this;
+    }
+    
+    public static VesselController getInstance(){
+        return instance;
+    }
 
     /*===========Declaration==========*/
     ObservableList<TankResultsModel> detailData = FXCollections.observableArrayList();
@@ -110,14 +124,17 @@ public class VesselController implements Initializable {
 
     @FXML
     private void btnRefresh(ActionEvent event) {            
-        tblDataKapalClicked();    
+        loadDataKapal();    
         loadTableNamaKapal();            
         tblNamaKapal.getSelectionModel().select(tr);
     }
-
+    
     @FXML
-    private void btnAddData(ActionEvent event) {
-        uic.CallUI("/Form/AddDataKapal.fxml");
+    private void btnAddData(ActionEvent event) throws IOException {
+        
+         cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
+         uic.VesselUICall("/Form/AddDataKapal.fxml");
+       
     }
     
     public void loadTableNamaKapal(){       
@@ -146,9 +163,7 @@ public class VesselController implements Initializable {
                 
                 tblNamaKapal.setItems(identitasKapal);
             }
-                                  
-            //tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
-            
+                        
             pst.close();
             rs.close();
         } catch (SQLException ex) {
@@ -156,12 +171,8 @@ public class VesselController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
-    public void getSelectedID(int id){
-        
-    }
-    
-    public void tblDataKapalClicked(){
+   
+    public void loadDataKapal(){
         noTank.setCellValueFactory(new PropertyValueFactory<>("notank"));
         sounding.setCellValueFactory(new PropertyValueFactory<>("sounding"));
         gov.setCellValueFactory(new PropertyValueFactory<>("gov"));
@@ -173,7 +184,11 @@ public class VesselController implements Initializable {
         gsw.setCellValueFactory(new PropertyValueFactory<>("gsw"));
         
         detailData.clear();        
+        
+        //set index position
         tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
+        
+        //get namakapal value
         TankResultsModel trm = tblNamaKapal.getSelectionModel().getSelectedItem();
         String cellValue = trm.getNamakapal();       
                                            
@@ -211,7 +226,8 @@ public class VesselController implements Initializable {
                 
                 tableTank.setItems(detailData);
             }
-                        
+                  
+            cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();
             lbNamaKapal.setText(cellValue);
             fForward.setText(Float.toString(forward));
             fAfter.setText(Float.toString(after));
@@ -220,7 +236,8 @@ public class VesselController implements Initializable {
             fRho.setText(Float.toString(bl));
             fSeacond.setText(seacondition);
             System.out.println(cellValue);
-
+            System.out.println(cellID);
+            
             pst.close();
             rs.close();           
             
@@ -232,9 +249,12 @@ public class VesselController implements Initializable {
 
     @FXML
     private void tblNamaKapalClicked(MouseEvent event) {
-        tblDataKapalClicked();
+        loadDataKapal();
     }
-    
+
+    @FXML
+    private void btnTest(ActionEvent event) {
+        
+    } 
    
-    
 }
