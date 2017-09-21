@@ -227,7 +227,7 @@ public class VesselController implements Initializable {
                 
                 tableTank.setItems(detailData);
             }
-                  
+                        
             cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();
             lbNamaKapal.setText(cellValue);
             fForward.setText(Float.toString(forward));
@@ -236,7 +236,7 @@ public class VesselController implements Initializable {
             fBl.setText(Float.toString(bl));
             fRho.setText(Float.toString(dens));
             fSeacond.setText(seacondition);
-            fTrim.setText(Float.toString(AddDataKapalController.getInstance().trim));
+            fTrim.setText(Float.toString(AddDataKapalController.getInstance().calculatedTrim()));
             System.out.println(cellValue);
             System.out.println(cellID);
                         
