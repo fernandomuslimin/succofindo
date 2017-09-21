@@ -55,30 +55,61 @@ public class AddDataKapalController implements Initializable {
         Connection con;
         Statement st;
         PreparedStatement pst;
-        ResultSet rs;      
+        ResultSet rs;   
+        float gov;
         //String id;
       /*==============================*/
+        
+    public static AddDataKapalController instance;
+    
+    public AddDataKapalController(){
+        instance = this;
+    }
+    
+    public static AddDataKapalController getInstance(){
+        return instance;
+    }    
+        
     @FXML
     private void btnReset(ActionEvent event) {
     }
         
-    @FXML
-    private void btnSave(ActionEvent event) {
+    public void findVolume(){
         
+        int db = (int)VesselController.getInstance().trim;
+        System.out.println("Nilai trim = "+db);
+        String sql = "SELECT volume FROM trim"+db+" WHERE sounding = ?";
         con = DBConnect.getKoneksi();
         try {
-          
-            String add = "INSERT INTO tank(id, notank, sounding, temp, density, forward, after, list) VALUES ((SELECT id FROM kapal WHERE id = ?),?,?,?,?,?,?,?) ";
+            pst = con.prepareStatement(sql);
+            pst.setString(1, fSounding.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                gov = rs.getFloat("volume");
+                System.out.println("Nilai GOV = "+gov);
+            }else{
+                System.out.println("Data Not Found!");
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void insertData(ActionEvent event){
+        con = DBConnect.getKoneksi();
+        try {
+            
+            String add = "INSERT INTO tank(id, notank, sounding, gov, temp, density, forward, after, list) VALUES ((SELECT id FROM kapal WHERE id = ?),?,?,?,?,?,?,?,?) ";
             
             pst = con.prepareStatement(add);
             pst.setString(1, VesselController.instance.cellID);
             pst.setString(2, fNoTank.getText());
             pst.setString(3, fSounding.getText());
-            pst.setString(4, fTemp.getText());
-            pst.setString(5, fDensity.getText());
-            pst.setString(6,fFoward.getText());
-            pst.setString(7, fAfter.getText());
-            pst.setString(8, fList.getText());             
+            pst.setFloat(4, gov);
+            pst.setString(5, fTemp.getText());
+            pst.setString(6, fDensity.getText());
+            pst.setString(7,fFoward.getText());
+            pst.setString(8, fAfter.getText());
+            pst.setString(9, fList.getText());             
             int r = pst.executeUpdate();
             
              if(r>0){                             
@@ -96,6 +127,12 @@ public class AddDataKapalController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }
+    }
+    
+    @FXML
+    private void btnSave(ActionEvent event) {
+        findVolume();
+        insertData(event);        
     }
 }    
 

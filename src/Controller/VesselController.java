@@ -111,6 +111,7 @@ public class VesselController implements Initializable {
     int tr;   
     String namaKapal;
     String cellID;
+    float trim;
     /*============================*/
     
     public ArrayList refreshDataTable(){
@@ -235,9 +236,10 @@ public class VesselController implements Initializable {
             fBl.setText(Float.toString(bl));
             fRho.setText(Float.toString(dens));
             fSeacond.setText(seacondition);
+            fTrim.setText(Float.toString(calculatedTrim()));
             System.out.println(cellValue);
             System.out.println(cellID);
-            
+                        
             pst.close();
             rs.close();           
             
@@ -246,12 +248,20 @@ public class VesselController implements Initializable {
             ex.printStackTrace();
         }
     }
-
+        
     @FXML
     private void tblNamaKapalClicked(MouseEvent event) {
         loadDataKapal();
     }
 
+    public float calculatedTrim() {        
+        float foward = Float.parseFloat(fForward.getText());
+        float after = Float.parseFloat(fAfter.getText());
+        trim = foward - after;
+        
+        return trim;
+    }
+    
     @FXML
     private void btnTest(ActionEvent event) {
         
