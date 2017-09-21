@@ -233,7 +233,7 @@ public class VesselController implements Initializable {
             fAfter.setText(Float.toString(after));
             fList.setText(Float.toString(list));
             fBl.setText(Float.toString(bl));
-            fRho.setText(Float.toString(bl));
+            fRho.setText(Float.toString(dens));
             fSeacond.setText(seacondition);
             System.out.println(cellValue);
             System.out.println(cellID);
