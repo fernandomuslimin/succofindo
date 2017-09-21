@@ -89,7 +89,7 @@ public class AddDataKapalController implements Initializable {
             int r = pst.executeUpdate();
              
              if(r>0){                             
-                FXDialogs.showInformation("Query Information", "Your data has been successfully aded!");
+                //FXDialogs.showInformation("Query Information", "Your data has been successfully aded!");
                 Node b = (Node) event.getSource();
                 Stage a = (Stage) b.getScene().getWindow();
                 a.close();
