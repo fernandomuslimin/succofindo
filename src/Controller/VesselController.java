@@ -20,12 +20,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
@@ -36,23 +34,8 @@ import javafx.scene.input.MouseEvent;
  */
 public class VesselController implements Initializable {
 
-      
     @FXML
     private Label lbNamaKapal;   
-    @FXML
-    private TextField fForward;
-    @FXML
-    private TextField fAfter;
-    @FXML
-    private TextField fList;
-    @FXML
-    private TextField fBl;
-    @FXML
-    private TextField fSeacond;
-    @FXML
-    private TextField fTrim;
-    @FXML
-    private TextField fRho;
     @FXML
     private TableColumn<TankResultsModel, Number> temp;
     @FXML
@@ -73,18 +56,23 @@ public class VesselController implements Initializable {
     private TableView<TankResultsModel> tableTank;
     @FXML
     private TableColumn<TankResultsModel, String> noTank;
-    @FXML
     public TableView<TankResultsModel> tblNamaKapal;
     @FXML
+    private TableColumn<TankResultsModel, Number> cForward;
+    @FXML
+    private TableColumn<TankResultsModel, Number> cAfter;
+    @FXML
+    private TableColumn<TankResultsModel, Number> cList;
+    @FXML
+    private TableColumn<TankResultsModel, Number> cTrim;
+    @FXML
     private TableColumn<TankResultsModel, Number> cNo;
+    @FXML
+    private TableColumn<TankResultsModel, Number> cBl;
     @FXML
     private TableColumn<TankResultsModel, String> cNamaKapal;
     @FXML
     private TableColumn<TankResultsModel, String> cSeaCondition;
-    @FXML
-    private TableColumn<TankResultsModel, Number> cBl;
-    @FXML
-    private Label lbNamaKapal1;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -132,9 +120,9 @@ public class VesselController implements Initializable {
     
     @FXML
     private void btnAddData(ActionEvent event) throws IOException {
-        
-         cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
-         uic.VesselUICall("/Form/AddDataKapal.fxml");
+        tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
+        cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
+        uic.VesselUICall("/Form/AddDataKapal.fxml");
        
     }
     
@@ -143,13 +131,15 @@ public class VesselController implements Initializable {
         cNamaKapal.setCellValueFactory(new PropertyValueFactory<>("namakapal"));
         cSeaCondition.setCellValueFactory(new PropertyValueFactory<>("seacondition"));
         cBl.setCellValueFactory(new PropertyValueFactory<>("bl"));
+        cForward.setCellValueFactory(new PropertyValueFactory<>("forward"));
+        cAfter.setCellValueFactory(new PropertyValueFactory<>("after"));
+        cList.setCellValueFactory(new PropertyValueFactory<>("list"));
+        cTrim.setCellValueFactory(new PropertyValueFactory<>("trim"));
         
         identitasKapal.clear();
                         
         String sql = "SELECT * FROM kapal";
        
-        float bl = 0;
-                              
         try {
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
@@ -157,16 +147,21 @@ public class VesselController implements Initializable {
             while(rs.next()){
                 identitasKapal.add(new TankResultsModel(
                         rs.getInt("id"),
-                        rs.getString("namakapal"),
+                        namaKapal = rs.getString("namakapal"),
                         rs.getString("seacondition"),
-                        bl = rs.getFloat("bl")
+                        rs.getFloat("bl"),
+                        rs.getFloat("forward"),
+                        rs.getFloat("after"),
+                        rs.getFloat("list"),
+                        trim = rs.getFloat("trim")
                 ));
                 
                 tblNamaKapal.setItems(identitasKapal);
             }
-                        
+            
             pst.close();
             rs.close();
+           
         } catch (SQLException ex) {
             Logger.getLogger(VesselController.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -174,6 +169,7 @@ public class VesselController implements Initializable {
     }
    
     public void loadDataKapal(){
+       
         noTank.setCellValueFactory(new PropertyValueFactory<>("notank"));
         sounding.setCellValueFactory(new PropertyValueFactory<>("sounding"));
         gov.setCellValueFactory(new PropertyValueFactory<>("gov"));
@@ -186,77 +182,56 @@ public class VesselController implements Initializable {
         
         detailData.clear();        
         
-        //set index position
-        tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
-        
-        //get namakapal value
-        TankResultsModel trm = tblNamaKapal.getSelectionModel().getSelectedItem();
-        String cellValue = trm.getNamakapal();       
-                                           
-        String sql = "SELECT kapal.id,kapal.namakapal,kapal.seacondition,kapal.bl,notank,sounding,gov,temp,density,vcf,gsv,wcf,gsw,forward,after,list FROM tank INNER JOIN kapal ON tank.id=kapal.id WHERE kapal.namakapal='"+cellValue+"'";
-              
-        String seacondition = null;       
-        String notank = null;        
-        float bl = 0;
-        float dens = 0;
-        float forward = 0;
-        float after = 0;
-        float list = 0;
-        
         try {
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
-            
-            while(rs.next()){
-                detailData.add(new TankResultsModel(rs.getInt("id"),
-                                                                        this.namaKapal =rs.getString("namakapal"),
-                                                                        seacondition = rs.getString("seacondition"),
-                                                                        bl = rs.getFloat("bl"),
-                                                                        notank = rs.getString("notank"), 
-                                                                        rs.getFloat("sounding"), 
-                                                                        rs.getFloat("gov"), 
-                                                                        rs.getFloat("temp"), 
-                                                                        dens = rs.getFloat("density"), 
-                                                                        rs.getFloat("vcf"), 
-                                                                        rs.getFloat("gsv"), 
-                                                                        rs.getFloat("wcf"), 
-                                                                        rs.getFloat("gsw"),
-                                                                        forward = rs.getFloat("forward"),
-                                                                        after = rs.getFloat("after"),
-                                                                        list = rs.getFloat("list")));
-                
-                tableTank.setItems(detailData);
-            }
-                        
-            cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();
-            lbNamaKapal.setText(cellValue);
-            fForward.setText(Float.toString(forward));
-            fAfter.setText(Float.toString(after));
-            fList.setText(Float.toString(list));
-            fBl.setText(Float.toString(bl));
-            fRho.setText(Float.toString(dens));
-            fSeacond.setText(seacondition);
-            fTrim.setText(Float.toString(AddDataKapalController.getInstance().calculatedTrim()));
-            System.out.println(cellValue);
-            System.out.println(cellID);
-                        
-            pst.close();
-            rs.close();           
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(VesselController.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-    }
-        
-    @FXML
-    private void tblNamaKapalClicked(MouseEvent event) {
-        loadDataKapal();
-    }
+            tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
+            String id = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
+           
+            String sql = "SELECT * FROM tank INNER JOIN kapal ON tank.id=kapal.id WHERE kapal.id='"+id+"'";
+           
+            try {
+                pst = con.prepareStatement(sql);
+                rs = pst.executeQuery();
 
+                while(rs.next()){
+                    detailData.add(new TankResultsModel(rs.getInt("id"),
+                                                                            rs.getString("notank"), 
+                                                                            rs.getFloat("sounding"), 
+                                                                            rs.getFloat("gov"), 
+                                                                            rs.getFloat("temp"), 
+                                                                            rs.getFloat("density"), 
+                                                                            rs.getFloat("vcf"), 
+                                                                            rs.getFloat("gsv"), 
+                                                                            rs.getFloat("wcf"), 
+                                                                            rs.getFloat("gsw")
+                                                                           ));
+
+                    tableTank.setItems(detailData);
+                    //get namakapal value
+                    TankResultsModel trm = tblNamaKapal.getSelectionModel().getSelectedItem();
+                    String cellValue = trm.getNamakapal();     
+                    cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();
+                    lbNamaKapal.setText(cellValue);           
+                }
+
+                pst.close();
+                rs.close();           
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(VesselController.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }    
+       
     @FXML
     private void btnTest(ActionEvent event) {
         
     } 
-   
+
+    @FXML
+    private void tblNamaKapalClicked(MouseEvent event) {
+        loadDataKapal();        
+    }
 }

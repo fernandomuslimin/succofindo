@@ -14,10 +14,10 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Tesa
  */
 public class TankResultsModel {
-    private SimpleIntegerProperty id;
-    private final SimpleStringProperty seacondition;
-    private final SimpleStringProperty namaKapal;
-    private final SimpleFloatProperty bl;
+    private final SimpleIntegerProperty id;
+    private SimpleStringProperty seacondition;
+    private SimpleStringProperty namaKapal;
+    private SimpleFloatProperty bl;
     private SimpleStringProperty notank;
     private SimpleFloatProperty sounding;
     private SimpleFloatProperty gov;
@@ -30,19 +30,21 @@ public class TankResultsModel {
     private SimpleFloatProperty forward;
     private SimpleFloatProperty after;
     private SimpleFloatProperty list;
+    private SimpleFloatProperty trim;
     
-    public TankResultsModel(int id, String namaKapal, String seacondition, float bl){        
+    public TankResultsModel(int id, String namaKapal, String seacondition, float bl, float forward, float after, float list, float trim){        
         this.id = new SimpleIntegerProperty(id);
         this.namaKapal = new SimpleStringProperty(namaKapal);
         this.seacondition = new SimpleStringProperty(seacondition);
         this.bl = new SimpleFloatProperty(bl);       
+        this.forward = new SimpleFloatProperty(forward);
+        this.after = new SimpleFloatProperty(after);
+        this.list = new SimpleFloatProperty(list);
+        this.trim = new SimpleFloatProperty(trim);
     }
             
-    public TankResultsModel(int id, String namaKapal, String seacondition, float bl, String notank, float sounding, float gov, float temp, float density, float vcf, float gsv, float wcf, float gsw, float forward, float after, float list){        
+    public TankResultsModel(int id, String notank, float sounding, float gov, float temp, float density, float vcf, float gsv, float wcf, float gsw){        
         this.id = new SimpleIntegerProperty(id);
-        this.namaKapal = new SimpleStringProperty(namaKapal);
-        this.seacondition = new SimpleStringProperty(seacondition);
-        this.bl = new SimpleFloatProperty(bl);
         this.notank = new SimpleStringProperty(notank);        
         this.sounding = new SimpleFloatProperty(sounding);
         this.gov = new SimpleFloatProperty(gov);
@@ -51,10 +53,7 @@ public class TankResultsModel {
         this.vcf = new SimpleFloatProperty(vcf);
         this.gsv = new SimpleFloatProperty(gsv);
         this.wcf = new SimpleFloatProperty(wcf);
-        this.gsw = new SimpleFloatProperty(gsw);
-        this.forward = new SimpleFloatProperty(forward);
-        this.after = new SimpleFloatProperty(after);
-        this.list = new SimpleFloatProperty(list);
+        this.gsw = new SimpleFloatProperty(gsw);        
     }    
     
     public int getId(){
@@ -121,6 +120,10 @@ public class TankResultsModel {
         return list.get();
     }
     
+    public float getTrim(){
+        return trim.get();
+    }
+    
     //setter for data model from database   
     
     public void setId(int id){
@@ -175,7 +178,7 @@ public class TankResultsModel {
         this.gsw.set(gsw);
     }
     
-    /*public void setForward(float forward){
+    public void setForward(float forward){
         this.forward.set(forward);
     }
     
@@ -185,5 +188,9 @@ public class TankResultsModel {
     
     public void setList(float list){
         this.list.set(list);
-    }*/
+    }
+    
+    public void setTrim(float trim){
+        this.trim.set(trim);
+    }
 }

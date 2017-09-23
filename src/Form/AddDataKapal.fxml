@@ -6,40 +6,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="422.0" prefWidth="381.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="Controller.AddDataKapalController">
+<AnchorPane id="AnchorPane" prefHeight="282.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddDataKapalController">
    <children>
-      <GridPane fx:id="gridPane" layoutX="51.0" layoutY="95.0" prefHeight="251.0" prefWidth="302.0" vgap="20.0">
+      <GridPane fx:id="gridPane" layoutX="51.0" layoutY="85.0" prefHeight="134.0" prefWidth="302.0" vgap="10.0">
          <children>
-            <Label text="Foward" />
-            <Label text="After" GridPane.rowIndex="1" />
-            <TextField fx:id="fFoward" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" />
-            <TextField fx:id="fAfter" prefHeight="25.0" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="No. Tank" GridPane.rowIndex="3" />
-            <TextField fx:id="fNoTank" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Sounding" GridPane.rowIndex="4" />
-            <TextField fx:id="fSounding" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Temp." GridPane.rowIndex="5" />
-            <TextField fx:id="fTemp" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Density" GridPane.rowIndex="6" />
-            <TextField fx:id="fDensity" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="List" GridPane.rowIndex="2" />
-            <TextField fx:id="fList" prefHeight="25.0" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label prefHeight="17.0" prefWidth="34.0" text="mm" GridPane.columnIndex="2" />
-            <Label prefHeight="17.0" prefWidth="34.0" text="mm" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label prefHeight="17.0" prefWidth="34.0" text="mm" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label prefHeight="17.0" prefWidth="34.0" text="mm" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label prefHeight="17.0" prefWidth="34.0" text="Deg C" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label text="No. Tank" />
+            <TextField fx:id="fNoTank" GridPane.columnIndex="1" />
+            <Label text="Sounding" GridPane.rowIndex="1" />
+            <TextField fx:id="fSounding" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Temp." GridPane.rowIndex="2" />
+            <TextField fx:id="fTemp" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Density" GridPane.rowIndex="3" />
+            <TextField fx:id="fDensity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="83.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="157.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.0" minWidth="10.0" prefWidth="50.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -47,7 +31,7 @@
          </rowConstraints>
       </GridPane>
       <Label layoutX="150.0" layoutY="31.0" text="New Data Calculate" />
-      <HBox layoutX="138.0" layoutY="362.0" spacing="20.0">
+      <HBox layoutX="138.0" layoutY="239.0" spacing="20.0">
          <children>
             <Button layoutX="230.0" layoutY="364.0" mnemonicParsing="false" onAction="#btnReset" text="Reset" />
             <Button layoutX="317.0" layoutY="364.0" mnemonicParsing="false" onAction="#btnSave" text="Save" />

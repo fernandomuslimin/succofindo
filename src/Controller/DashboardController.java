@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -33,6 +35,9 @@ public class DashboardController implements Initializable {
         UIController UIC = new UIController();
         String vesselURL = "/Form/Vessel.fxml";
         UIC.CallUI(vesselURL);
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage)node.getScene().getWindow();
+        stage.close();
     }
     
 }

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -56,7 +57,6 @@ public class AddDataKapalController implements Initializable {
         Statement st;
         PreparedStatement pst;
         ResultSet rs;   
-        float gov;
         float trim;
       /*==============================*/
         
@@ -74,61 +74,81 @@ public class AddDataKapalController implements Initializable {
     private void btnReset(ActionEvent event) {
     }
     
-    public float calculatedTrim() {        
-        float foward = Float.parseFloat(fFoward.getText());
-        float after = Float.parseFloat(fAfter.getText());
-        trim = foward - after;
+    public void findVolume(ActionEvent event){        
+        VesselController.getInstance().loadDataKapal();
         
-        return trim;
-    }
+        float gov = 0;
+        int db = (int) VesselController.getInstance().trim;
+        String notank = fNoTank.getText();
+        String id = VesselController.getInstance().cellID;
         
-    public void findVolume(){        
-        int db = (int) calculatedTrim();
-        System.out.println("Nilai trim = "+db);
-        String sql = "SELECT volume FROM trim"+db+" WHERE sounding = ?";
+        String sql = "SELECT volume FROM trim"+db+" WHERE sounding = (SELECT sounding FROM tank WHERE id = ? AND notank = ?)";
+        String insGov = "UPDATE tank SET gov = ? WHERE id = ? AND notank = ?";
+        System.out.println(sql);
         con = DBConnect.getKoneksi();
         try {
             pst = con.prepareStatement(sql);
-            pst.setString(1, fSounding.getText());
+            pst.setString(1, id);
+            pst.setString(2, notank);
             rs = pst.executeQuery();
             if(rs.next()){
                 gov = rs.getFloat("volume");
                 System.out.println("Nilai GOV = "+gov);
-            }else{
-                System.out.println("Data Not Found!");
+                System.out.println("Hi Im Exist");
+            } else {
+                System.out.println("data not found");
             }
-        } catch (Exception e) {
+            
+            pst.close();
+            rs.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+            e.getCause();
+            e.printStackTrace();
         }
+        
+        try {
+            pst = con.prepareStatement(insGov);
+            pst.setFloat(1, gov);
+            pst.setString(2, id);
+            pst.setString(3, notank);
+            int res = pst.executeUpdate();
+            if (res>0){
+                Node b = (Node) event.getSource();
+                Stage a = (Stage) b.getScene().getWindow();
+                a.close();                
+                VesselController.getInstance().loadDataKapal();
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        
     }
     
-    public void insertData(ActionEvent event){
+    public void insertData(){
+        //float gov = findVolume();
         con = DBConnect.getKoneksi();
         try {
             
-            String add = "INSERT INTO tank(id, notank, sounding, gov, temp, density, forward, after, list) VALUES ((SELECT id FROM kapal WHERE id = ?),?,?,?,?,?,?,?,?) ";
+            String add = "INSERT INTO tank(id, notank, sounding, temp, density) VALUES ((SELECT id FROM kapal WHERE id = ?),?,?,?,?) ";
             
             pst = con.prepareStatement(add);
             pst.setString(1, VesselController.instance.cellID);
             pst.setString(2, fNoTank.getText());
             pst.setString(3, fSounding.getText());
-            pst.setFloat(4, gov);
-            pst.setString(5, fTemp.getText());
-            pst.setString(6, fDensity.getText());
-            pst.setString(7,fFoward.getText());
-            pst.setString(8, fAfter.getText());
-            pst.setString(9, fList.getText());             
+            pst.setString(4, fTemp.getText());
+            pst.setString(5, fDensity.getText());
+              
             int r = pst.executeUpdate();
             
              if(r>0){                             
-                //FXDialogs.showInformation("Query Information", "Your data has been successfully aded!");
-                Node b = (Node) event.getSource();
-                Stage a = (Stage) b.getScene().getWindow();
-                a.close();
-                VesselController.getInstance().loadDataKapal();
+                FXDialogs.showInformation("Query Information", "Your data has been successfully aded!");                
              }
              
              pst.close();
-                         
+                                      
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
@@ -137,10 +157,9 @@ public class AddDataKapalController implements Initializable {
     }
     
     @FXML
-    private void btnSave(ActionEvent event) {
-        calculatedTrim();
-        findVolume();
-        insertData(event);        
+    private void btnSave(ActionEvent event) {      
+       insertData(); 
+       findVolume(event);
     }
 }    
 

@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -40,6 +41,9 @@ public class LoginController implements Initializable {
        String username = fUsername.getText();
        String password = fPassword.getText();
        MT.checkUser(username,password);
+       Node node = (Node)event.getSource();
+       Stage stage = (Stage) node.getScene().getWindow();
+       stage.close();
     }
 
     @FXML

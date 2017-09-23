@@ -16,10 +16,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -41,6 +39,12 @@ public class NewController implements Initializable {
     private TextField fBL;
     private Button clicked;
     private GridPane gridPane;
+    @FXML
+    private TextField fFoward;
+    @FXML
+    private TextField fAfter;
+    @FXML
+    private TextField fList;
     
     
     /**
@@ -71,13 +75,19 @@ public class NewController implements Initializable {
     
     @FXML
     private void btnAdd(ActionEvent event) {
-        String add = "INSERT INTO kapal(namakapal, seacondition, bl) VALUES (?,?,?)";
+        float trim = calculateTrim();
+        String add = "INSERT INTO kapal(namakapal, seacondition, bl, forward, after, list, trim) VALUES (?,?,?,?,?,?,?)";
         con = DBConnect.getKoneksi();
+        
         try {
              pst = con.prepareStatement(add);
              pst.setString(1, fNamaKapal.getText());
              pst.setString(2, fSeaCondition.getText());
              pst.setString(3, fBL.getText());
+             pst.setString(4, fFoward.getText());
+             pst.setString(5, fAfter.getText());
+             pst.setString(6, fList.getText());
+             pst.setFloat(7, trim);
              int r = pst.executeUpdate();
              if(r>0){                
                 Node b = (Node) event.getSource();
@@ -86,11 +96,23 @@ public class NewController implements Initializable {
                 VesselController.getInstance().loadTableNamaKapal();
              }
              
+             pst.close();
+             
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
             e.getCause();
         }
+    }
+    
+    public float calculateTrim() {       
+        float trim;
+        float forward = Float.parseFloat(fFoward.getText());
+        float after = Float.parseFloat(fAfter.getText());
+        
+        trim = forward - after;
+        
+        return trim;
     }
     
     public void addNewData(TankResultsModel tankResults){
