@@ -84,7 +84,7 @@ public class AddDataKapalController implements Initializable {
         
         String sql = "SELECT volume FROM trim"+db+" WHERE sounding = (SELECT sounding FROM tank WHERE id = ? AND notank = ?)";
         String insGov = "UPDATE tank SET gov = ? WHERE id = ? AND notank = ?";
-        System.out.println(sql);
+       
         con = DBConnect.getKoneksi();
         try {
             pst = con.prepareStatement(sql);
@@ -93,8 +93,6 @@ public class AddDataKapalController implements Initializable {
             rs = pst.executeQuery();
             if(rs.next()){
                 gov = rs.getFloat("volume");
-                System.out.println("Nilai GOV = "+gov);
-                System.out.println("Hi Im Exist");
             } else {
                 System.out.println("data not found");
             }
@@ -123,12 +121,10 @@ public class AddDataKapalController implements Initializable {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
-        
     }
     
     public void insertData(){
-        //float gov = findVolume();
+        
         con = DBConnect.getKoneksi();
         try {
             
