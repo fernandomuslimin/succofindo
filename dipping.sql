@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2017 at 10:43 AM
+-- Generation Time: Sep 24, 2017 at 12:44 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -32,18 +32,21 @@ CREATE TABLE `kapal` (
   `id` int(11) NOT NULL,
   `namakapal` varchar(100) NOT NULL,
   `seacondition` varchar(60) NOT NULL,
-  `bl` float NOT NULL
+  `bl` float NOT NULL,
+  `forward` float NOT NULL,
+  `after` float NOT NULL,
+  `list` float DEFAULT NULL,
+  `trim` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kapal`
 --
 
-INSERT INTO `kapal` (`id`, `namakapal`, `seacondition`, `bl`) VALUES
-(5, 'Dewa19', 'Fine', 1000),
-(6, 'Dewa Dewi', 'Nice', 1092),
-(7, 'HEWAN', 'BAIK', 123),
-(8, 'tes123', 'baiksekali', 123);
+INSERT INTO `kapal` (`id`, `namakapal`, `seacondition`, `bl`, `forward`, `after`, `list`, `trim`) VALUES
+(22, 'testing', 'nice', 100, 40, 20, 0, 20),
+(23, 'baru', 'bad', 1000, 50, 30, 0, 20),
+(24, 'bagus', 'baik', 100, 50, 30, 0, 20);
 
 -- --------------------------------------------------------
 
@@ -61,25 +64,58 @@ CREATE TABLE `tank` (
   `vcf` float DEFAULT NULL,
   `gsv` float DEFAULT NULL,
   `wcf` float DEFAULT NULL,
-  `gsw` float DEFAULT NULL,
-  `forward` float NOT NULL,
-  `after` float NOT NULL,
-  `list` float NOT NULL
+  `gsw` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tank`
 --
 
-INSERT INTO `tank` (`id`, `notank`, `sounding`, `gov`, `temp`, `density`, `vcf`, `gsv`, `wcf`, `gsw`, `forward`, `after`, `list`) VALUES
-(5, '9p', 673, 89, 6834, 667, 8776, 45, 76, 546, 6457, 3489, 43),
-(5, '8p', 8767, 6566, 4545, 23, 6556, 46, 565665, 564, 5, 445, 675),
-(5, '7p', 78, NULL, 895, 38798, NULL, NULL, NULL, NULL, 34, 347, 834),
-(5, '1p', 2234, NULL, 546, 56, NULL, NULL, NULL, NULL, 3422, 34534, 64),
-(5, '10P', 8935, NULL, 776, 6732, NULL, NULL, NULL, NULL, 123, 346, 745),
-(5, '11p', 345, NULL, 9834, 7834, NULL, NULL, NULL, NULL, 1232, 657, 345),
-(5, '12p', 786, NULL, 798, 65, NULL, NULL, NULL, NULL, 675, 987, 65),
-(6, '1p', 123, NULL, 65, 98, NULL, NULL, NULL, NULL, 23, 2345, 87);
+INSERT INTO `tank` (`id`, `notank`, `sounding`, `gov`, `temp`, `density`, `vcf`, `gsv`, `wcf`, `gsw`) VALUES
+(22, '1p', 10, 532, 30, 20, NULL, NULL, NULL, NULL),
+(22, '2p', 10, 532, 23, 43, NULL, NULL, NULL, NULL),
+(22, '1s', 10, 532, 33, 23, NULL, NULL, NULL, NULL),
+(22, '2s', 20, 532, 33, 54, NULL, NULL, NULL, NULL),
+(22, '3p', 20, 532, 33, 43, NULL, NULL, NULL, NULL),
+(22, '3s', 30, 532, 32, 34, NULL, NULL, NULL, NULL),
+(22, '4p', 30, 532, 12, 32, NULL, NULL, NULL, NULL),
+(22, '4s', 40, 532, 10, 34, NULL, NULL, NULL, NULL),
+(22, '5p', 50, 532, 10, 10, NULL, NULL, NULL, NULL),
+(22, '6p', 10, 532, 32, 12, NULL, NULL, NULL, NULL),
+(22, '6s', 30, 532, 19, 12, NULL, NULL, NULL, NULL),
+(22, '7p', 10, 532, 30, 50, NULL, NULL, NULL, NULL),
+(22, '7s', 20, 532, 30, 23, NULL, NULL, NULL, NULL),
+(22, '8p', 30, 532, 124, 4, NULL, NULL, NULL, NULL),
+(22, '8s', 50, 532, 23, 56, NULL, NULL, NULL, NULL),
+(22, '9p', 10, 532, 23, 21, NULL, NULL, NULL, NULL),
+(22, '9s', 20, 532, 9, 8, NULL, NULL, NULL, NULL),
+(22, '10p', 50, 532, 9, 8, NULL, NULL, NULL, NULL),
+(22, '10s', 50, 532, 3, 2, NULL, NULL, NULL, NULL),
+(22, '11p', 10, 532, 30, 20, NULL, NULL, NULL, NULL),
+(22, '12p', 10, 532, 30, 40, NULL, NULL, NULL, NULL),
+(22, '12s', 20, 532, 30, 40, NULL, NULL, NULL, NULL),
+(22, '11s', 20, 532, 0, 0, NULL, NULL, NULL, NULL),
+(22, '13p', 30, 532, 0, 0, NULL, NULL, NULL, NULL),
+(22, '14p', 50, 532, 32, 345, NULL, NULL, NULL, NULL),
+(22, '14s', 40, 532, 22, 13, NULL, NULL, NULL, NULL),
+(22, '15p', 40, 532, 0, 0, NULL, NULL, NULL, NULL),
+(22, '15s', 40, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '1p', 10, 532, 30, 23, NULL, NULL, NULL, NULL),
+(23, '1s', 20, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '2p', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '2s', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '3p', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '3p', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '3p', 20, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '4p', 20, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '4s', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '5p', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '5s', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(23, '6p', 30, 532, 0, 0, NULL, NULL, NULL, NULL),
+(24, '1p', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
+(24, '1s', 30, 532, 0, 0, NULL, NULL, NULL, NULL),
+(24, '2p', 50, 1140, 0, 0, NULL, NULL, NULL, NULL),
+(24, '2s', 40, 836, 0, 0, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -109,19 +145,19 @@ CREATE TABLE `tankresults` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `trim2`
+-- Table structure for table `trim20`
 --
 
-CREATE TABLE `trim2` (
+CREATE TABLE `trim20` (
   `sounding` float(10,0) NOT NULL,
   `volume` float(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `trim2`
+-- Dumping data for table `trim20`
 --
 
-INSERT INTO `trim2` (`sounding`, `volume`) VALUES
+INSERT INTO `trim20` (`sounding`, `volume`) VALUES
 (10, 61),
 (20, 243),
 (30, 532),
@@ -131,21 +167,29 @@ INSERT INTO `trim2` (`sounding`, `volume`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `trim4`
+-- Table structure for table `trim40`
 --
 
-CREATE TABLE `trim4` (
-  `height` decimal(10,0) NOT NULL,
+CREATE TABLE `trim40` (
+  `sounding` decimal(10,0) NOT NULL,
   `volume` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trim40`
+--
+
+INSERT INTO `trim40` (`sounding`, `volume`) VALUES
+('10', '100'),
+('20', '200');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `trim6`
+-- Table structure for table `trim60`
 --
 
-CREATE TABLE `trim6` (
+CREATE TABLE `trim60` (
   `height` decimal(10,0) NOT NULL,
   `volume` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -216,21 +260,21 @@ ALTER TABLE `tankresults`
   ADD PRIMARY KEY (`idkapal`);
 
 --
--- Indexes for table `trim2`
+-- Indexes for table `trim20`
 --
-ALTER TABLE `trim2`
+ALTER TABLE `trim20`
   ADD PRIMARY KEY (`sounding`);
 
 --
--- Indexes for table `trim4`
+-- Indexes for table `trim40`
 --
-ALTER TABLE `trim4`
-  ADD PRIMARY KEY (`height`);
+ALTER TABLE `trim40`
+  ADD PRIMARY KEY (`sounding`);
 
 --
--- Indexes for table `trim6`
+-- Indexes for table `trim60`
 --
-ALTER TABLE `trim6`
+ALTER TABLE `trim60`
   ADD PRIMARY KEY (`height`);
 
 --
@@ -259,7 +303,7 @@ ALTER TABLE `userid`
 -- AUTO_INCREMENT for table `kapal`
 --
 ALTER TABLE `kapal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `userid`
 --
