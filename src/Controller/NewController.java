@@ -10,6 +10,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -71,6 +72,8 @@ public class NewController implements Initializable {
 
     @FXML
     private void btnCancel(ActionEvent event) {
+        Stage x = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        x.close();
     }
     
     @FXML
@@ -98,10 +101,9 @@ public class NewController implements Initializable {
              
              pst.close();
              
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-            e.getCause();
+        } catch (SQLException e) {
+            System.out.println(e);           
+            FXDialogs.showInformation("Data Information", "Data insert was failed!");
         }
     }
     

@@ -6,11 +6,13 @@
 package Controller;
 
 import java.io.IOException;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,20 +30,21 @@ public class UIController {
                 stage.show();
                 System.out.println(fxml);                
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Failed to Open Scene");
-                ex.printStackTrace();
-                ex.getCause();
+                FXDialogs.showInformation("UI Information", "Failed to call UI!");
             }
     }
     
-    public void VesselUICall(String fxml){
+    public void popUpUI(String fxml, Event event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         try {
-            Parent vessel = loader.load();
+            Parent parent = loader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(vessel));
+            stage.setScene(new Scene(parent));
+            
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node)event.getSource()).getScene().getWindow());
             stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
 

@@ -65,7 +65,7 @@ public class MainClass extends Application {
         }
         
         LoginController controller = loader.getController();
-        controller.setPrevStage(stage);
+      
         
     }
 }

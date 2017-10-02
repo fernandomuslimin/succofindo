@@ -48,10 +48,11 @@ public class LoginController implements Initializable {
 
     @FXML
     private void btnCancel(ActionEvent event) {
-       System.exit(0);
+       UIController uic = new UIController();
+       uic.CallUI("/Form/SignUp.fxml");
+       Node node = (Node) event.getSource();
+       Stage stage = (Stage) node.getScene().getWindow();
+       stage.close();
     }
     
-    public void setPrevStage(Stage prevStage){
-        this.prevStage = prevStage;
-    }
 }

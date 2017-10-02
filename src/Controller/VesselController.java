@@ -53,7 +53,7 @@ public class VesselController implements Initializable {
     @FXML
     private TableColumn<TankResultsModel, Number> gsw;
     @FXML
-    private TableView<TankResultsModel> tableTank;
+    public TableView<TankResultsModel> tableTank;
     @FXML
     private TableColumn<TankResultsModel, String> noTank;
     public TableView<TankResultsModel> tblNamaKapal;
@@ -97,6 +97,7 @@ public class VesselController implements Initializable {
     PreparedStatement pst;
     ResultSet rs;        
     int tr;   
+   
     String namaKapal;
     String cellID;
     float trim;
@@ -108,7 +109,7 @@ public class VesselController implements Initializable {
     
     @FXML
     private void btnNewKapal(ActionEvent event) {
-        uic.CallUI("/Form/NewKapal.fxml");
+        uic.popUpUI("/Form/NewKapal.fxml", event);
     }
 
     @FXML
@@ -116,13 +117,14 @@ public class VesselController implements Initializable {
         loadDataKapal();    
         loadTableNamaKapal();            
         tblNamaKapal.getSelectionModel().select(tr);
+        
     }
     
     @FXML
     private void btnAddData(ActionEvent event) throws IOException {
         tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
         cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
-        uic.VesselUICall("/Form/AddDataKapal.fxml");
+        uic.popUpUI("/Form/AddDataKapal.fxml", event);
        
     }
     
@@ -164,7 +166,6 @@ public class VesselController implements Initializable {
            
         } catch (SQLException ex) {
             Logger.getLogger(VesselController.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
         }
     }
    
@@ -218,20 +219,44 @@ public class VesselController implements Initializable {
                 
             } catch (SQLException ex) {
                 Logger.getLogger(VesselController.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
             }
         } catch (Exception e) {
             System.out.println(e);
         }
     }    
        
-    @FXML
-    private void btnTest(ActionEvent event) {
-        
-    } 
 
     @FXML
     private void tblNamaKapalClicked(MouseEvent event) {
         loadDataKapal();        
+    }
+
+    @FXML
+    private void btnUpdate(ActionEvent event) {
+        uic.popUpUI("/Form/Update.fxml", event);
+    }
+    @FXML
+    private void btnDelete(ActionEvent event) {        
+        
+        TankResultsModel tankRow = tableTank.getSelectionModel().getSelectedItem();
+        TankResultsModel IDKapal = tblNamaKapal.getSelectionModel().getSelectedItem();
+       
+        if(tankRow != null && IDKapal != null){
+            con = DBConnect.getKoneksi();
+            String sql = "DELETE FROM tank WHERE id = ? AND notank = ?";
+            try {
+                pst = con.prepareStatement(sql);
+                pst.setInt(1, IDKapal.getId());
+                pst.setString(2, tankRow.getNotank());
+                pst.execute();
+                loadDataKapal();
+                System.out.println("Deleted");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            
+        } else{
+            System.out.println("Table Empty");
+        }
     }
 }
