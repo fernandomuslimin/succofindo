@@ -30,9 +30,9 @@ public class TankResultsModel {
     private SimpleFloatProperty forward;
     private SimpleFloatProperty after;
     private SimpleFloatProperty list;
-    private SimpleFloatProperty trim;
+    private SimpleIntegerProperty trim;
     
-    public TankResultsModel(int id, String namaKapal, String seacondition, float bl, float forward, float after, float list, float trim){        
+    public TankResultsModel(int id, String namaKapal, String seacondition, float bl, float forward, float after, float list, int trim){        
         this.id = new SimpleIntegerProperty(id);
         this.namaKapal = new SimpleStringProperty(namaKapal);
         this.seacondition = new SimpleStringProperty(seacondition);
@@ -40,7 +40,7 @@ public class TankResultsModel {
         this.forward = new SimpleFloatProperty(forward);
         this.after = new SimpleFloatProperty(after);
         this.list = new SimpleFloatProperty(list);
-        this.trim = new SimpleFloatProperty(trim);
+        this.trim = new SimpleIntegerProperty(trim);
     }
             
     public TankResultsModel(int id, String notank, float sounding, float gov, float temp, float density, float vcf, float gsv, float wcf, float gsw){        
@@ -120,7 +120,7 @@ public class TankResultsModel {
         return list.get();
     }
     
-    public float getTrim(){
+    public int getTrim(){
         return trim.get();
     }
     
@@ -190,7 +190,7 @@ public class TankResultsModel {
         this.list.set(list);
     }
     
-    public void setTrim(float trim){
+    public void setTrim(int trim){
         this.trim.set(trim);
     }
 }

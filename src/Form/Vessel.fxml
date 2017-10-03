@@ -155,5 +155,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Button layoutX="384.0" layoutY="104.0" mnemonicParsing="false" onAction="#btnBtn" text="Button" />
    </children>
 </AnchorPane>

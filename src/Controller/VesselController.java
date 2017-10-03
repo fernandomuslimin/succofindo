@@ -100,7 +100,7 @@ public class VesselController implements Initializable {
    
     String namaKapal;
     String cellID;
-    float trim;
+    int trim;
     /*============================*/
     
     public ArrayList refreshDataTable(){
@@ -116,17 +116,20 @@ public class VesselController implements Initializable {
     private void btnRefresh(ActionEvent event) {            
         loadDataKapal();    
         loadTableNamaKapal();            
-        tblNamaKapal.getSelectionModel().select(tr);
-        
+        tblNamaKapal.getSelectionModel().select(tr);        
     }
     
     @FXML
     private void btnAddData(ActionEvent event) throws IOException {
         tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
         cellID = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
+        trim = Integer.parseInt(tblNamaKapal.getColumns().get(7).getCellObservableValue(tr).getValue().toString());
+        System.out.println("trim add "+trim);
         uic.popUpUI("/Form/AddDataKapal.fxml", event);
        
     }
+    
+    
     
     public void loadTableNamaKapal(){       
         cNo.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -155,12 +158,12 @@ public class VesselController implements Initializable {
                         rs.getFloat("forward"),
                         rs.getFloat("after"),
                         rs.getFloat("list"),
-                        trim = rs.getFloat("trim")
+                        rs.getInt("trim")                        
                 ));
                 
                 tblNamaKapal.setItems(identitasKapal);
             }
-            
+          
             pst.close();
             rs.close();
            
@@ -186,7 +189,7 @@ public class VesselController implements Initializable {
         try {
             tr = tblNamaKapal.getSelectionModel().getFocusedIndex();
             String id = tblNamaKapal.getColumns().get(0).getCellObservableValue(tr).getValue().toString();   
-           
+                      
             String sql = "SELECT * FROM tank INNER JOIN kapal ON tank.id=kapal.id WHERE kapal.id='"+id+"'";
            
             try {
@@ -259,4 +262,10 @@ public class VesselController implements Initializable {
             System.out.println("Table Empty");
         }
     }
+
+    @FXML
+    private void btnBtn(ActionEvent event) {
+    }
+    
+    
 }
