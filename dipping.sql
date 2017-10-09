@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2017 at 12:44 PM
+-- Generation Time: Oct 09, 2017 at 04:46 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -36,7 +36,7 @@ CREATE TABLE `kapal` (
   `forward` float NOT NULL,
   `after` float NOT NULL,
   `list` float DEFAULT NULL,
-  `trim` float NOT NULL
+  `trim` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -46,7 +46,9 @@ CREATE TABLE `kapal` (
 INSERT INTO `kapal` (`id`, `namakapal`, `seacondition`, `bl`, `forward`, `after`, `list`, `trim`) VALUES
 (22, 'testing', 'nice', 100, 40, 20, 0, 20),
 (23, 'baru', 'bad', 1000, 50, 30, 0, 20),
-(24, 'bagus', 'baik', 100, 50, 30, 0, 20);
+(24, 'bagus', 'baik', 100, 50, 30, 0, 20),
+(25, 'abcdefg', 'baiksekali', 200000000000, 3234, 34, 34, 3200),
+(26, 'bni', 'baik', 100, 40, 20, 0, 20);
 
 -- --------------------------------------------------------
 
@@ -72,12 +74,8 @@ CREATE TABLE `tank` (
 --
 
 INSERT INTO `tank` (`id`, `notank`, `sounding`, `gov`, `temp`, `density`, `vcf`, `gsv`, `wcf`, `gsw`) VALUES
-(22, '1p', 10, 532, 30, 20, NULL, NULL, NULL, NULL),
-(22, '2p', 10, 532, 23, 43, NULL, NULL, NULL, NULL),
-(22, '1s', 10, 532, 33, 23, NULL, NULL, NULL, NULL),
-(22, '2s', 20, 532, 33, 54, NULL, NULL, NULL, NULL),
-(22, '3p', 20, 532, 33, 43, NULL, NULL, NULL, NULL),
-(22, '3s', 30, 532, 32, 34, NULL, NULL, NULL, NULL),
+(22, '3R', 23, 532, 23, 14, NULL, NULL, NULL, NULL),
+(22, '3U', 30, 532, 32, 34, NULL, NULL, NULL, NULL),
 (22, '4p', 30, 532, 12, 32, NULL, NULL, NULL, NULL),
 (22, '4s', 40, 532, 10, 34, NULL, NULL, NULL, NULL),
 (22, '5p', 50, 532, 10, 10, NULL, NULL, NULL, NULL),
@@ -115,7 +113,22 @@ INSERT INTO `tank` (`id`, `notank`, `sounding`, `gov`, `temp`, `density`, `vcf`,
 (24, '1p', 10, 532, 0, 0, NULL, NULL, NULL, NULL),
 (24, '1s', 30, 532, 0, 0, NULL, NULL, NULL, NULL),
 (24, '2p', 50, 1140, 0, 0, NULL, NULL, NULL, NULL),
-(24, '2s', 40, 836, 0, 0, NULL, NULL, NULL, NULL);
+(24, '2s', 40, 836, 0, 0, NULL, NULL, NULL, NULL),
+(24, '3p', 12345700, 0, 23498, 3498, NULL, NULL, NULL, NULL),
+(24, '3s', 32000000000, 0, 234, 34, NULL, NULL, NULL, NULL),
+(22, '55p', 10, NULL, 12, 12, NULL, NULL, NULL, NULL),
+(22, '66p', 10, 0, 32, 23, NULL, NULL, NULL, NULL),
+(22, '56p', 10, NULL, 2, 3, NULL, NULL, NULL, NULL),
+(22, '57p', 10, 0, 30, 20, NULL, NULL, NULL, NULL),
+(22, '58p', 10, NULL, 12, 43, NULL, NULL, NULL, NULL),
+(22, '61p', 10, 61, 23, 32, NULL, NULL, NULL, NULL),
+(22, '62p', 10, NULL, 3, 1, NULL, NULL, NULL, NULL),
+(22, '63p', 10, NULL, 23, 32, NULL, NULL, NULL, NULL),
+(22, '64p', 10, NULL, 32, 12, NULL, NULL, NULL, NULL),
+(22, '65p', 12, NULL, 34, 34, NULL, NULL, NULL, NULL),
+(22, '69p', 15, 152, 31, 12, NULL, NULL, NULL, NULL),
+(22, '70p', 14, 134, 23, 30, NULL, NULL, NULL, NULL),
+(22, '29p', 16, 171, 34, 44, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -223,19 +236,22 @@ CREATE TABLE `trim100` (
 --
 
 CREATE TABLE `userid` (
-  `id` int(11) NOT NULL,
+  `npp` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `username` varchar(60) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `position` varchar(20) NOT NULL
+  `password` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `userid`
 --
 
-INSERT INTO `userid` (`id`, `name`, `username`, `password`, `position`) VALUES
-(1, 'administrator', 'admin', 'admin', 'manager');
+INSERT INTO `userid` (`npp`, `name`, `username`, `password`) VALUES
+(1, 'administrator', 'admin', 'admin'),
+(12359, 'Ryan', 'ryanrahmadyan', 'bandung'),
+(12360, 'Fernando M', 'fernando', 'bandung'),
+(12366, 'Leo M', 'leomuttaqin', 'palembang'),
+(12370, 'Nisa Ainun', 'ainunisa', 'nisabandung');
 
 --
 -- Indexes for dumped tables
@@ -293,7 +309,7 @@ ALTER TABLE `trim100`
 -- Indexes for table `userid`
 --
 ALTER TABLE `userid`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`npp`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -303,12 +319,7 @@ ALTER TABLE `userid`
 -- AUTO_INCREMENT for table `kapal`
 --
 ALTER TABLE `kapal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
---
--- AUTO_INCREMENT for table `userid`
---
-ALTER TABLE `userid`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- Constraints for dumped tables
 --

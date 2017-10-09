@@ -129,8 +129,6 @@ public class VesselController implements Initializable {
        
     }
     
-    
-    
     public void loadTableNamaKapal(){       
         cNo.setCellValueFactory(new PropertyValueFactory<>("id"));
         cNamaKapal.setCellValueFactory(new PropertyValueFactory<>("namakapal"));
